@@ -35,3 +35,16 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 32.80 seconds
 ```
+### Analysis
+
+Based on the Nmap results:
+
+- Port 22 (SSH) → Possible brute-force or credential reuse
+- Port 80 (HTTP) → Web application to enumerate
+
+### Web Enumeration
+
+Accessed:
+- http://10.49.150.68/
+
+![Website Homepage](screenshots/1.png)
