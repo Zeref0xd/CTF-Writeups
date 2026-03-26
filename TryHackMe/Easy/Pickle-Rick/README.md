@@ -55,3 +55,18 @@ Accessed:
 
 ![Website Homepage Source Code](screenshots/2.png)
 
+- /robots.txt Found with a Text looks like Credential.
+- Homepage Source code having Note which disclose Username
+```ansi
+<!--
+
+    Note to self, remember username!
+
+    Username: R1ckRul3s
+
+  -->
+```
+### /robots.txt 
+![/robots.txt](screenshots/3.png)
+
+
