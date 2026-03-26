@@ -119,3 +119,16 @@ sudo nikto -h 10.49.150.68
 
 ![Login Page](screenshots/4.png)
 
+- Login using the Credentials we found in /robots.txt and and source code
+
+![Logged In](screenshots/5.png)
+
+- After logged in we can see a Command Panel in which we can execute Commands
+
+![Command Panel](screenshots/6.png)
+
+- It is a Restricted Shell
+
+![Output](screenshots/7.png)
+
+![Output](screenshots/8.png)
