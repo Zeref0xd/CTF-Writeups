@@ -288,4 +288,4 @@ root@ip-10-48-185-215:~# cat 3rd.txt
 ```
 - Found the Final Ingredient : fleeb juice
 
-# Thanks for Reading | Creator @Zeref0xD
+# Thanks for Reading | Creator '@Zeref0xD'
