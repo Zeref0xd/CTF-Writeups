@@ -69,4 +69,10 @@ Accessed:
 ### /robots.txt 
 ![/robots.txt](screenshots/3.png)
 
+## Directory & File Brute Forcing
+
+### Command Used
+```bash
+sudo feroxbuster -u http://10.49.150.68/ -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt
+```
 
