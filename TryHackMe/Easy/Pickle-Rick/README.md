@@ -75,4 +75,47 @@ Accessed:
 ```bash
 sudo feroxbuster -u http://10.49.150.68/ -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt
 ```
+### Found 
+
+http://10.49.150.68/assets/ (Not Useful)
+
+## Vulnerability Scanning
+
+### Command Used 
+```bash
+sudo nikto -h 10.49.150.68
+```
+### Output 
+```ansi
+┌─[zeref@Athena]─[~/TryHackMe/Pickle-Rick]─[192.168.137.158]
+└──╼ $ sudo nikto -h 10.49.150.68                         
+- Nikto v2.6.0
+---------------------------------------------------------------------------
++ Your Nikto installation is out of date.
++ Target IP:          10.49.150.68
++ Target Hostname:    10.49.150.68
++ Target Port:        80
++ Platform:           Unknown
++ Start Time:         2026-03-26 12:52:02 (GMT5.5)
+---------------------------------------------------------------------------
++ Server: Apache/2.4.41 (Ubuntu)
++ No CGI Directories found (use '-C all' to force check all possible dirs). CGI tests skipped.
++ [600050] Apache/2.4.41 appears to be outdated (current is at least 2.4.66).
++ [999984] /: Server may leak inodes via ETags, header found with file /, inode: 426, size: 5818ccf125686, mtime: gzip. See: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2003-1418
++ [013587] /: Suggested security header missing: x-content-type-options. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
++ [013587] /: Suggested security header missing: content-security-policy. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
++ [013587] /: Suggested security header missing: permissions-policy. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy
++ [013587] /: Suggested security header missing: strict-transport-security. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
++ [013587] /: Suggested security header missing: referrer-policy. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
++ [95] /login.php: Cookie PHPSESSID created without the httponly flag. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
++ [999990] OPTIONS: Allowed HTTP Methods: GET, POST, OPTIONS, HEAD .
++ [006333] /login.php: Admin login page/section found.
+```
+### Found 
+```bash
+/login.php
+```
+### /login.php
+
+![Login Page](screenshots/4.png)
 
