@@ -262,7 +262,7 @@ Matching Defaults entries for www-data on ip-10-48-185-215:
 User www-data may run the following commands on ip-10-48-185-215:
     (ALL) NOPASSWD: ALL
 ```
-### 🧠 Analysis
+### Analysis
 
 The user `www-data` is allowed to execute all commands as root without requiring a password. This is a critical misconfiguration, as it effectively grants full administrative access to the system.
 
