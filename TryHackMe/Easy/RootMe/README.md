@@ -150,8 +150,8 @@ stty raw -echo; fg
 export TERM=xterm
 stty rows 40 columns 120
 ```
-### Post Exploitation Enumeration 
-```asni
+### Post-Exploitation Enumeration 
+```ansi
 www-data@ip-10-49-136-148:/home/test$ cd /var/www
 www-data@ip-10-49-136-148:/var/www$ ls
 html  user.txt
@@ -241,5 +241,20 @@ whoami
 ### Conclusion
 
 Privilege escalation was achieved by abusing the SUID-enabled Python binary. This vulnerability arises due to improper assignment of SUID permissions to an interpreter, allowing execution of arbitrary commands with root privileges.
+
+### Reading Root Flag
+```ansi
+# cat /root/root.txt
+THM{pr1v1l3g3_3sc4l4t10n}
+```
+- I found the Root flag and the CTF is solved!!!
+
+## Learnings
+
+- Importance of proper file upload validation
+- Weak file extension filtering can lead to RCE
+- Necessity of server-side validation over blacklist approaches
+- SUID misconfigurations can lead to privilege escalation
+- Chaining vulnerabilities leads to full system compromise
 
 # Thanks for Reading | Creator **Zeref0xD**
