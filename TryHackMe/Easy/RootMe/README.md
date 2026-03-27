@@ -112,6 +112,7 @@ shell.php5
 The file was successfully uploaded through the panel.
 
 ---
+![uploads](screenshots/5.png)
 
 ### Result
 
