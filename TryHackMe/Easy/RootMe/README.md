@@ -84,7 +84,7 @@ During web enumeration, a `/panel` endpoint was discovered. Upon accessing it, a
 /home/user/php-reverse-shell.php5
 ```
 
-![Blocked](screenshots.3png)
+![Blocked](screenshots/3.png)
 
 ### Analysis
 
@@ -93,7 +93,7 @@ During testing, it was observed that direct upload of `.php` files was restricte
 However, the application failed to block alternative PHP extensions such as `.php5`, indicating weak file type validation.
 
 ---
-![Allowed](screenshots/4,png)
+![Allowed](screenshots/4.png)
 
 ### Exploitation
 
