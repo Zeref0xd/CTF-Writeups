@@ -46,4 +46,69 @@ Based on the Nmap results:
 
 ## Web Enumeration
 
+Accessed:
+
+- http://10.49.136.148/
+
+![Homepage](screenshots/1.png)
+
+- Nothing Interesting Found in Source Code
+
+### Directory & File Busting
+
+### Command Used
+```bash
+sudo feroxbuster -u http://10.49.136.148/ -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt
+```
+### Found 
+
+- http://10.49.136.148/uploads/
+- http://10.49.136.148/css/
+- http://10.49.136.148/js/
+- http://10.49.136.148/panel/
+
+### Looking into Directories and files
+
+- /panel/
+
+![Panel](screenshots/2.png)
+
+## File Upload Functionality
+
+### Observation
+
+During web enumeration, a `/panel` endpoint was discovered. Upon accessing it, a file upload interface was identified, allowing users to select and upload files.
+
+### Analysis
+
+The presence of a file upload form using `multipart/form-data` encoding indicates that the application accepts user-supplied files.
+
+Such functionality can be risky if proper validation is not implemented, as it may allow attackers to upload malicious files.
+
+---
+
+### Testing
+
+The upload functionality was tested by uploading different file types to determine whether restrictions were enforced.
+
+- A basic file upload was performed to confirm functionality.
+- Additional tests were conducted using potentially executable file types.
+
+---
+
+### Potential Vulnerability
+
+If the application does not properly validate file type, extension, or content, it may allow arbitrary file uploads.
+
+This can lead to:
+
+- Remote Code Execution (RCE)
+- Server compromise
+- Unauthorized access
+
+---
+
+### Conclusion
+
+The file upload functionality represents a potential attack surface. Further testing is required to determine whether it can be exploited for remote code execution.
 
