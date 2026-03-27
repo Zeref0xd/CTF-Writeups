@@ -39,3 +39,11 @@ Nmap done: 1 IP address (1 host up) scanned in 7.20 seconds
 ```
 ### Analysing
 
+Based on the Nmap results:
+
+- Port 22 (SSH) → Possible brute-force or credential reuse
+- Port 80 (HTTP) → Web application to enumerate
+
+## Web Enumeration
+
+
