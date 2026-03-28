@@ -10,7 +10,7 @@ Are you able to use open source intelligence to solve this challenge?
 
 ## Download Task Files 
 
-![Task File](screenshots/1.jpg)
+![Task File](screenshots/1.png)
 
 The provided image did not contain any visible clues. Therefore, metadata analysis was performed to extract hidden information.
 ### Command Used 
